@@ -20,9 +20,9 @@ int max(int a, int b)
 * Return: None
 */
 
-size_t binary_tree_count(const binary_tree_t *tree)
+int binary_tree_count(const binary_tree_t *tree)
 {
-	size_t right = 0, left = 0;
+	int right = 0, left = 0;
 
 	if (tree == NULL)
 	{
