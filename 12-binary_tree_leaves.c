@@ -1,6 +1,6 @@
 #include "binary_trees.h"
 /**
-* binary_tree_leaves - A function which computes the size of a tree
+* binary_tree_leaves - A function which computes the leaves of a tree
 * @tree: Head of the binary tree
 *
 * Return: None
