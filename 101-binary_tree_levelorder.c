@@ -1,7 +1,5 @@
 #include "binary_trees.h"
 
-#include "binary_trees.h"
-
 /**
 * add_node - A function for creating new node
 * @parent: A parent of the node
@@ -58,22 +56,22 @@ void add_node_end(binary_tree_t *head, binary_tree_t *node)
 /**
 * del_node - A recursive function for deleting node
 * @node: A node to be deleted
-* @left: Direction of the child with respect to the parent
 *
 * Return: None
 */
 void del_node(binary_tree_t *node)
 {
-    binary_tree_t *current = NULL, *prev = NULL;
-    if (node == NULL)
-        return;
-    while (current != NULL)
-    {
-        prev = current;
-        current = current->left;
-        prev->left = NULL;
-        free(prev);
-    }
+	binary_tree_t *current = NULL, *prev = NULL;
+
+	if (node == NULL)
+		return;
+	while (current != NULL)
+	{
+		prev = current;
+		current = current->left;
+		prev->left = NULL;
+		free(prev);
+	}
 }
 
 /**
