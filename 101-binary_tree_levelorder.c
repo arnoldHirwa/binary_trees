@@ -1,16 +1,5 @@
 #include "binary_trees.h"
 
-/*
-*linked_list_s // binary_tree_s
-*{
-*	int n; // value of node
-*	binary_tree_s *left; // next node
-*	binary_tree_s *right; // null
-*	binary_tree_s *parent; /// null
-*} linked_list_t; // binary_tree_t
-*
-*/
-
 /**
 * add_node_end - Add a node to the end of tree
 * @head: head of the node
