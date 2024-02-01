@@ -1,76 +1,55 @@
 #include "binary_trees.h"
 
 /**
-* add_node - A function for creating new node
-* @parent: A parent of the node
-* @value: Value to be put in the node.
+* delete_head_node - deletes a listint node at index
 *
-* Return: A new node
+* @head: head of list
+*
+* Return: 1 if successful, -1 otherwise
 */
-binary_tree_t *add_node(binary_tree_t *parent, int value)
+int delete_head_node(listint_t **head)
 {
-	binary_tree_t *new = malloc(sizeof(binary_tree_t));
+	listint_t *ptr = NULL;
 
-	if (new == NULL)
-	{
-		free(new);
-		return (NULL);
-	}
-	new->n = value;
-	new->parent = NULL;
-	new->left = NULL;
-	new->right = NULL;
+	if (head == NULL || *head == NULL)
+		return (-1);
 
-	if (parent == NULL)
-	{
-		return (new);
-	}
-
-	new->parent = parent;
-
-	return (new);
+	ptr = *head;
+	*head = (*head)->next;
+	free(ptr);
+	return (1);
 }
-
 /**
-* add_node_end - Add a node to the end of tree
-* @head: head of the node
-* @node: node to add
-* Return: None
+* add_node_end - adds a listint node to the end of a list
+*
+* @head: head of list
+* @node: value to give new node
+*
+* Return: address of new node
 */
-void add_node_end(binary_tree_t *head, binary_tree_t *node)
+listint_t *add_node_end(listint_t **head, binary_tree_t *node)
 {
-	binary_tree_t *current = NULL;
+	listint_t *ptr, *end;
 
 	if (head == NULL)
-		return;
+		return (NULL);
+	end = *head;
+	if (end != NULL)
+		while (end->next != NULL)
+			end = end->next;
 
-	current = head;
-	while (current->left != NULL)
-	{
-		current = current->left;
-	}
-	current->left = add_node(NULL, node->n);
-	current->left->right = node;
+	ptr = malloc(sizeof(listint_t));
+	if (ptr == NULL)
+		return (NULL);
+
+	ptr->node = node;
+	if (*head == NULL)
+		*head = ptr;
+	else
+		end->next = ptr;
+	ptr->next = NULL;
+	return (ptr);
 }
-
-/**
-* del_node - A recursive function for deleting node
-* @node: A node to be deleted
-*
-* Return: None
-*/
-void del_node(binary_tree_t *node)
-{
-	if (node == NULL)
-		return;
-	if (node->left != NULL)
-		del_node(node->left);
-	if (node->right != NULL)
-		del_node(node->right);
-
-	free(node);
-}
-
 /**
 * binary_tree_levelorder - Traverse a tree in levelorder
 * @tree: Head of the binary tree
@@ -80,32 +59,26 @@ void del_node(binary_tree_t *node)
 
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
-	binary_tree_t *que, *root, *current_t;
+	binary_tree_t *current_t;
+	listint_t *que = NULL;
 
 	if (tree == NULL || func == NULL)
 		return;
 
-	root = add_node(NULL, tree->n);
-	root->right = (binary_tree_t *)tree;
-	que = root;
+	add_node_end(&que, (binary_tree_t *)tree);
 
-	for ( ; que != NULL; que = que->left)
+	while (que != NULL)
 	{
-		current_t = que->right;
+		current_t = que->node;
+		func(current_t->n);
 		if (current_t->left != NULL)
 		{
-			add_node_end(root, current_t->left);
+			add_node_end(&que, current_t->left);
 		}
 		if (current_t->right != NULL)
 		{
-			add_node_end(root, current_t->right);
+			add_node_end(&que, current_t->right);
 		}
+		delete_head_node(&que);
 	}
-
-	while (root != NULL)
-	{
-		func(root->n);
-		root = root->left;
-	}
-	del_node(root);
 }
