@@ -1,5 +1,38 @@
 #include "binary_trees.h"
 
+#include "binary_trees.h"
+
+/**
+* add_node - A function for creating new node
+* @parent: A parent of the node
+* @value: Value to be put in the node.
+*
+* Return: A new node
+*/
+binary_tree_t *add_node(binary_tree_t *parent, int value)
+{
+	binary_tree_t *new = malloc(sizeof(binary_tree_t));
+
+	if (new == NULL)
+	{
+		free(new);
+		return (NULL);
+	}
+	new->n = value;
+	new->parent = NULL;
+	new->left = NULL;
+	new->right = NULL;
+
+	if (parent == NULL)
+	{
+		return (new);
+	}
+
+	new->parent = parent;
+
+	return (new);
+}
+
 /**
 * add_node_end - Add a node to the end of tree
 * @head: head of the node
@@ -18,9 +51,31 @@ void add_node_end(binary_tree_t *head, binary_tree_t *node)
 	{
 		current = current->left;
 	}
-	current->left = binary_tree_node(NULL, node->n);
+	current->left = add_node(NULL, node->n);
 	current->left->right = node;
 }
+
+/**
+* del_node - A recursive function for deleting node
+* @node: A node to be deleted
+* @left: Direction of the child with respect to the parent
+*
+* Return: None
+*/
+void del_node(binary_tree_t *node)
+{
+    binary_tree_t *current = NULL, *prev = NULL;
+    if (node == NULL)
+        return;
+    while (current != NULL)
+    {
+        prev = current;
+        current = current->left;
+        prev->left = NULL;
+        free(prev);
+    }
+}
+
 /**
 * binary_tree_levelorder - Traverse a tree in levelorder
 * @tree: Head of the binary tree
@@ -35,7 +90,7 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 	if (tree == NULL || func == NULL)
 		return;
 
-	root = binary_tree_node(NULL, tree->n);
+	root = add_node(NULL, tree->n);
 	root->right = (binary_tree_t *)tree;
 	que = root;
 
@@ -57,5 +112,5 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 		func(root->n);
 		root = root->left;
 	}
-	binary_tree_delete(root);
+	del_node(root);
 }
