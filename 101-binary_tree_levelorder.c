@@ -61,17 +61,12 @@ void add_node_end(binary_tree_t *head, binary_tree_t *node)
 */
 void del_node(binary_tree_t *node)
 {
-	binary_tree_t *current = NULL, *prev = NULL;
-
 	if (node == NULL)
 		return;
-	while (current != NULL)
-	{
-		prev = current;
-		current = current->left;
-		prev->left = NULL;
-		free(prev);
-	}
+	if (node->left != NULL)
+		del_node(node->left);
+
+	free(node);
 }
 
 /**
