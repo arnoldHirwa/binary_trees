@@ -65,6 +65,8 @@ void del_node(binary_tree_t *node)
 		return;
 	if (node->left != NULL)
 		del_node(node->left);
+	if (node->right != NULL)
+		del_node(node->right);
 
 	free(node);
 }
