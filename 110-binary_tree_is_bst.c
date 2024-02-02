@@ -21,7 +21,7 @@ int binary_traverse(binary_tree_t *tree, bool *failed)
 	if (tree->left != NULL)
 	{
 		left = binary_traverse(tree->left, failed);
-		if (tree->n <= left)
+		if (tree->n < left)
 		{
 			*failed = true;
 			return (0);
