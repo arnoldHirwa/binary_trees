@@ -28,5 +28,7 @@ int binary_traverse(binary_tree_t *tree, int min, int max)
 
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
+	if (tree == NULL)
+		return (0);
 	return (binary_traverse((binary_tree_t *)tree, -2147483648, 2147483647));
 }
