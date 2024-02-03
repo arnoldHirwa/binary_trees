@@ -18,25 +18,24 @@ void swap_nodes(heap_t *a, heap_t *b)
 }
 /**
 * sift_down - balance a tree in heap format
-* @tree: a pointer to the tree to balance
+* @root: a pointer to the tree to balance
 */
 
-void sift_down(heap_t *tree)
+void sift_down(heap_t *root)
 {
-	heap_t *largest = tree;
-	heap_t *left = tree->left;
-	heap_t *right = tree->right;
+	heap_t *largest = root, *current = NULL;
+	int temp;
 
-	if (left != NULL && left->n > largest->n)
-		largest = left;
-
-	if (right != NULL && right->n > largest->n)
-		largest = right;
-
-	if (largest != tree)
+	while (largest != current)
 	{
-		swap_nodes(tree, largest);
-		sift_down(largest);
+		current = largest;
+		if (current->left && current->left->n > current->n)
+			largest = current->left;
+		if (current->right && current->right->n > largest->n)
+			largest = current->right;
+		temp = current->n;
+		current->n = largest->n;
+		largest->n = temp;
 	}
 }
 
