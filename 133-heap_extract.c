@@ -1,35 +1,38 @@
 #include "binary_trees.h"
 
 /**
+* swap_nodes - swap values of two nodes
+* @a: first node
+* @b: second node
+*/
+void swap_nodes(heap_t *a, heap_t *b)
+{
+	int tmp;
+
+	tmp = a->n;
+	a->n = b->n;
+	b->n = tmp;
+}
+/**
 * balance - balance a tree in heap format
 * @tree: a pointer to the tree to balance
 */
 
 void balance(heap_t *tree)
 {
-	int tmp;
-
 	if (tree == NULL || (tree->left == NULL && tree->right == NULL))
 		return;
 	if (tree->left)
 	{
 		balance(tree->left);
 		if (tree->n < tree->left->n)
-		{
-			tmp = tree->n;
-			tree->n = tree->left->n;
-			tree->left->n = tmp;
-		}
+			swap_nodes(tree, tree->left);
 	}
 	if (tree->right)
 	{
 		balance(tree->right);
 		if (tree->n < tree->right->n)
-		{
-			tmp = tree->n;
-			tree->n = tree->right->n;
-			tree->right->n = tmp;
-		}
+			swap_nodes(tree, tree->right);
 	}
 }
 
@@ -92,7 +95,7 @@ int heap_extract(heap_t **root)
 	nodes = nbr_of_nodes(*root);
 
 	traverse(*root, 0, nodes, &last);
-	if (last)
+	if (last->parent)
 	{
 		if (last->parent->left == last)
 			last->parent->left = NULL;
@@ -100,11 +103,9 @@ int heap_extract(heap_t **root)
 			last->parent->right = NULL;
 
 		(*root)->n = last->n;
-		free(last);
-	} else
-	{
-		return (0);
 	}
+	free(last);
+	last = NULL;
 
 	balance(*root);
 	return (replace);
