@@ -107,9 +107,9 @@ int heap_extract(heap_t **root)
 			last->parent->right = NULL;
 
 		(*root)->n = last->n;
-	}
+	} else
+		*root = NULL;
 	free(last);
-	last = NULL;
 
 	sift_down(*root);
 	return (replace);
