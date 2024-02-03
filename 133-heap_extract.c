@@ -14,25 +14,26 @@ void swap_nodes(heap_t *a, heap_t *b)
 	b->n = tmp;
 }
 /**
-* balance - balance a tree in heap format
+* sift_down - balance a tree in heap format
 * @tree: a pointer to the tree to balance
 */
 
-void balance(heap_t *tree)
+void sift_down(heap_t *tree)
 {
-	if (tree == NULL || (tree->left == NULL && tree->right == NULL))
-		return;
-	if (tree->left)
+	heap_t *largest = tree;
+	heap_t *left = tree->left;
+	heap_t *right = tree->right;
+
+	if (left != NULL && left->n > largest->n)
+		largest = left;
+
+	if (right != NULL && right->n > largest->n)
+		largest = right;
+
+	if (largest != tree)
 	{
-		balance(tree->left);
-		if (tree->n < tree->left->n)
-			swap_nodes(tree, tree->left);
-	}
-	if (tree->right)
-	{
-		balance(tree->right);
-		if (tree->n < tree->right->n)
-			swap_nodes(tree, tree->right);
+		swap_nodes(tree, largest);
+		sift_down(largest);
 	}
 }
 
@@ -107,6 +108,6 @@ int heap_extract(heap_t **root)
 	free(last);
 	last = NULL;
 
-	balance(*root);
+	sift_down(*root);
 	return (replace);
 }
