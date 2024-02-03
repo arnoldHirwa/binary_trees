@@ -97,16 +97,14 @@ int heap_extract(heap_t **root)
 
 	replace = (*root)->n;
 	nodes = nbr_of_nodes(*root);
-
 	traverse(*root, 0, nodes, &last);
+	(*root)->n = last->n;
 	if (last->parent)
 	{
 		if (last->parent->left == last)
 			last->parent->left = NULL;
 		else
 			last->parent->right = NULL;
-
-		(*root)->n = last->n;
 	} else
 		*root = NULL;
 	free(last);
