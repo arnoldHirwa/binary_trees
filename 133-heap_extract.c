@@ -1,21 +1,6 @@
 #include "binary_trees.h"
 
-/**
-* swap_nodes - swap values of two nodes
-* @a: first node
-* @b: second node
-*/
-void swap_nodes(heap_t *a, heap_t *b)
-{
-	int tmp;
 
-	if (a == NULL || b == NULL)
-		return;
-
-	tmp = a->n;
-	a->n = b->n;
-	b->n = tmp;
-}
 /**
 * sift_down - balance a tree in heap format
 * @root: a pointer to the tree to balance
