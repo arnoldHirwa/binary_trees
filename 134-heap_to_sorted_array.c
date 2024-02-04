@@ -25,12 +25,21 @@ int nbr_nodes(binary_tree_t *tree)
 int *heap_to_sorted_array(heap_t *heap, size_t *size)
 {
 	int *array = NULL;
+
 	size_t i;
+
+	*size = 0;
+	if (!heap)
+		return (NULL);
 
 	*size = nbr_nodes(heap);
 	array = malloc(*size * sizeof(int));
+
 	if (array == NULL)
+	{
+		*size = 0;
 		return (NULL);
+	}
 
 	for (i = 0; i < *size; i++)
 	{
